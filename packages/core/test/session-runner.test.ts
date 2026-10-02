@@ -40,6 +40,7 @@ import { ApplicationTools } from "@opencode-ai/core/tool/application-tools"
 import { AgentV2 } from "@opencode-ai/core/agent"
 import { Config } from "@opencode-ai/core/config"
 import { ConfigCompaction } from "@opencode-ai/core/config/compaction"
+import { ConfigLecore } from "@opencode-ai/core/config/lecore"
 import { Tool } from "@opencode-ai/core/tool/tool"
 import {
   SessionContextEpochTable,
@@ -216,6 +217,9 @@ const config = Layer.succeed(
         new Config.Document({
           type: "document",
           info: new Config.Info({
+            // These fixtures reuse one synthetic session against a fresh DB.
+            // Persistent leCore coverage lives in lecore-inference.test.ts.
+            lecore: new ConfigLecore.Info({ enabled: false }),
             compaction: new ConfigCompaction.Info({
               buffer: 3_000,
               keep: new ConfigCompaction.Keep({ tokens: 1_000 }),

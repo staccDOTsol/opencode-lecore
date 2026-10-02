@@ -1,0 +1,238 @@
+{
+  "scope": "Real file repair through tools and the fork's adapter before every provider step; not the OpenCode CLI",
+  "upstreamCommit": "108b988a08227df45417f27905a4d6b27ad49b6d",
+  "implementation": [
+    {
+      "file": "packages/lecore/src/index.ts",
+      "sha256": "87d2462d2cdabc8da5b7197a20f0986e1f4c67675b08b6816e9407958936ba8a"
+    },
+    {
+      "file": "packages/lecore/src/worker.ts",
+      "sha256": "1eee8beecc8bbddad825a53eb8b98a573fe792cc1f50c4bc877ceab4c71b45d1"
+    },
+    {
+      "file": "packages/lecore/python/worker.py",
+      "sha256": "206a5fb11e8c5c58f7a36f609f8823684fb5fd6e17d79e8a8d5f90a210d94b9d"
+    }
+  ],
+  "timestamp": "2026-10-02T23:00:50.809Z",
+  "model": "glm-5.3-flash",
+  "live": true,
+  "settings": {
+    "temperature": 0,
+    "maxOutputTokens": 1200,
+    "maxRetries": 0,
+    "maxTurnsPerArm": 6,
+    "adapter": {
+      "minimumChars": 600,
+      "recentMessages": 6,
+      "budgetChars": 9000
+    }
+  },
+  "rows": [
+    {
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "live": true,
+      "passed": false,
+      "failures": [
+        "delay(1,100,500,1) expected 100",
+        "delay(2,100,500,1) expected 200",
+        "delay(3,100,500,1) expected 400",
+        "delay(3,100,500,2) expected 500",
+        "delay(3,100,500,0.5) expected 200",
+        "delay(1,5,500,0.5) expected 3",
+        "source was not changed"
+      ],
+      "requests": 2,
+      "usage": {
+        "inputTokens": 15408,
+        "inputTokenDetails": {
+          "noCacheTokens": 7856,
+          "cacheReadTokens": 7552
+        },
+        "outputTokens": 1256,
+        "outputTokenDetails": {
+          "textTokens": 1256,
+          "reasoningTokens": 0
+        },
+        "totalTokens": 16664,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 7552
+      },
+      "answer": "Both files are read. Comparing the implementation against the contract, I found two timing bugs:\n\n1. **Off-by-one exponent**: The code uses `baseMs * 2 ** attempt`, so attempt 1 returns `2 \u00d7 baseMs`. The contract says attempt 1 starts at `baseMs` and attempt 2 doubles it \u2014 i.e. `baseMs * 2 ** (attempt - 1)`.\n2. **Wrong cap order**: The code applies `Math.min(maxMs, ...)` *before* multiplying by jitter, so jitter can push the result past `maxMs`. The contract requires multiplying by jitter *first*, then capping at `maxMs`, then rounding. Since `maxMs` is an integer, rounding a value already capped at `maxMs` can never exceed it.\n\nThe argument validation (positive integer attempt, non-negative `baseMs`/`maxMs`/`jitter`) matches the contract's throw requirements and will be preserved. Zero jitter correctly yields `Math.min(maxMs, 0) = 0`. The operations notes about satellite gateways/headers are independent records and don't affect retry",
+      "tools": [
+        "read:src/retry.ts",
+        "read:docs/retry-contract.md"
+      ],
+      "toolIntegrityErrors": [],
+      "memory": [
+        {
+          "enabled": false,
+          "engine": "disabled",
+          "inputChars": 30335,
+          "outputChars": 30335,
+          "removedChars": 0,
+          "indexedItems": 0,
+          "recalledItems": 0,
+          "elapsedMs": 0
+        },
+        {
+          "enabled": false,
+          "engine": "disabled",
+          "inputChars": 30409,
+          "outputChars": 30409,
+          "removedChars": 0,
+          "indexedItems": 0,
+          "recalledItems": 0,
+          "elapsedMs": 0
+        }
+      ],
+      "totalMs": 21292.928459,
+      "finalSource": "export function delay(attempt: number, baseMs: number, maxMs: number, jitter = 1) {\n  if (attempt < 1 || !Number.isInteger(attempt)) throw new Error(\"attempt must be positive integer\")\n  if (baseMs < 0 || maxMs < 0 || jitter < 0) throw new Error(\"negative option\")\n  return Math.round(Math.min(maxMs, baseMs * 2 ** attempt) * jitter)\n}\n",
+      "estimatedCostUsd": 0.00203296
+    },
+    {
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "live": true,
+      "passed": true,
+      "failures": [],
+      "requests": 3,
+      "usage": {
+        "inputTokens": 18288,
+        "inputTokenDetails": {
+          "noCacheTokens": 18288,
+          "cacheReadTokens": 0
+        },
+        "outputTokens": 1072,
+        "outputTokenDetails": {
+          "textTokens": 1072,
+          "reasoningTokens": 0
+        },
+        "totalTokens": 19360,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 0
+      },
+      "answer": "Fixed `src/retry.ts` to match the documented retry contract:\n\n- **Exponential growth corrected**: `baseMs * 2 ** (attempt - 1)` so attempt 1 returns `baseMs` and attempt 2 doubles it (previously attempt 1 already returned `baseMs * 2`).\n- **Jitter applied before the cap**: the value is now multiplied by `jitter`, rounded to the nearest integer, and only then clamped with `Math.min(maxMs, \u2026)`. Since `maxMs` is an integer number of milliseconds, the rounded result can never exceed it \u2014 this also fixes cases where jitter pushed a pre-capped value back above `maxMs`.\n- **Validation preserved**: non-positive or non-integer attempts and negative `baseMs`/`maxMs`/`jitter` still throw, and zero jitter still returns 0.\n\nThe operations notes (per-project gateways, regions, retry delays, signing headers) are independent records and required no changes to this shared helper.",
+      "tools": [
+        "read:src/retry.ts",
+        "read:docs/retry-contract.md",
+        "write:src/retry.ts"
+      ],
+      "toolIntegrityErrors": [],
+      "memory": [
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 30335,
+          "outputChars": 21228,
+          "removedChars": 9107,
+          "indexedItems": 24,
+          "recalledItems": 13,
+          "elapsedMs": 205.24575000000186,
+          "worker": {
+            "indexed_chunks": 90,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 90,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.822,
+            "no_match": false,
+            "scope": "1d851c732f1ded98f153bb8ce71cb968ce3a4ecde5985f00d4ef537190fb4e21",
+            "archived_items": 24,
+            "new_items": 24,
+            "original_versions": 24,
+            "replacement_items": 17,
+            "input_chars": 30335,
+            "transform_ms": 45.195
+          }
+        },
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 30400,
+          "outputChars": 19243,
+          "removedChars": 11157,
+          "indexedItems": 25,
+          "recalledItems": 13,
+          "elapsedMs": 49.40116699999999,
+          "worker": {
+            "indexed_chunks": 91,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 91,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.337,
+            "no_match": false,
+            "scope": "1d851c732f1ded98f153bb8ce71cb968ce3a4ecde5985f00d4ef537190fb4e21",
+            "archived_items": 25,
+            "new_items": 1,
+            "original_versions": 25,
+            "replacement_items": 19,
+            "input_chars": 30400,
+            "transform_ms": 47.629
+          }
+        },
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 31014,
+          "outputChars": 17807,
+          "removedChars": 13207,
+          "indexedItems": 26,
+          "recalledItems": 13,
+          "elapsedMs": 53.73020799999358,
+          "worker": {
+            "indexed_chunks": 93,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 93,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.314,
+            "no_match": false,
+            "scope": "1d851c732f1ded98f153bb8ce71cb968ce3a4ecde5985f00d4ef537190fb4e21",
+            "archived_items": 26,
+            "new_items": 1,
+            "original_versions": 26,
+            "replacement_items": 21,
+            "input_chars": 31014,
+            "transform_ms": 51.8
+          }
+        }
+      ],
+      "totalMs": 20311.737457999996,
+      "finalSource": "export function delay(attempt: number, baseMs: number, maxMs: number, jitter = 1) {\n  if (attempt < 1 || !Number.isInteger(attempt)) throw new Error(\"attempt must be positive integer\")\n  if (baseMs < 0 || maxMs < 0 || jitter < 0) throw new Error(\"negative option\")\n  return Math.min(maxMs, Math.round(baseMs * 2 ** (attempt - 1) * jitter))\n}\n",
+      "estimatedCostUsd": 0.0032792
+    }
+  ],
+  "limitations": [
+    "One coding task per arm; no statistical or broad coding-quality inference.",
+    "Baseline read both required files and described the correct fixes but did not write the source. The apparent output limit is inferred from a truncated answer and configured 1200-token turn cap; this first run did not capture finishReason.",
+    "The successful leCore arm used an extra provider turn, more aggregate input tokens, and no cache reads. It is not evidence of lower whole-task cost."
+  ]
+}

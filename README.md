@@ -1,3 +1,5 @@
+This fork enables local leCore processing on OpenCode model inputs. See [setup, architecture, and paired benchmarks](README.LECORE.md).
+
 <p align="center">
   <a href="https://opencode.ai">
     <picture>

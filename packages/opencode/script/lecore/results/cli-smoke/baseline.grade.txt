@@ -1,0 +1,11 @@
+test_attempts_positive (test_retry.RetryTests.test_attempts_positive) ... ok
+test_final_error_is_same_instance_no_final_sleep (test_retry.RetryTests.test_final_error_is_same_instance_no_final_sleep) ... ok
+test_no_sleep_after_immediate_success (test_retry.RetryTests.test_no_sleep_after_immediate_success) ... ok
+test_non_transient_error_is_not_retried (test_retry.RetryTests.test_non_transient_error_is_not_retried) ... ok
+test_retries_and_backs_off (test_retry.RetryTests.test_retries_and_backs_off) ... ok
+test_zero_delay_can_use_zero_backoff (test_retry.RetryTests.test_zero_delay_can_use_zero_backoff) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.000s
+
+OK

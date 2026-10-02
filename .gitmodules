@@ -1,0 +1,3 @@
+[submodule "vendor/lecore"]
+	path = vendor/lecore
+	url = https://github.com/AnOversizedMooseWithSocks/leCore.git

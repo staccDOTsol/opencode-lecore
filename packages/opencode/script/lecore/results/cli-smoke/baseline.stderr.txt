@@ -1,0 +1,58 @@
+timestamp=2026-10-02T22:59:00.692Z level=INFO run=6e86b1e3 message="creating instance" directory=/private/tmp/opencode-lecore-cli-smoke/baseline
+timestamp=2026-10-02T22:59:00.693Z level=INFO run=6e86b1e3 message=fromDirectory directory=/private/tmp/opencode-lecore-cli-smoke/baseline
+timestamp=2026-10-02T22:59:00.699Z level=INFO run=6e86b1e3 message=bootstrapping directory=/private/tmp/opencode-lecore-cli-smoke/baseline
+timestamp=2026-10-02T22:59:00.703Z level=INFO run=6e86b1e3 message=loading path=/Users/stacc/.config/opencode/config.json
+timestamp=2026-10-02T22:59:00.703Z level=INFO run=6e86b1e3 message=loading path=/Users/stacc/.config/opencode/opencode.json
+timestamp=2026-10-02T22:59:00.704Z level=INFO run=6e86b1e3 message=loading path=/Users/stacc/.config/opencode/opencode.jsonc
+timestamp=2026-10-02T22:59:00.707Z level=INFO run=6e86b1e3 message=loading path=/private/tmp/opencode-lecore-cli-smoke/baseline/opencode.json
+timestamp=2026-10-02T22:59:00.785Z level=INFO run=6e86b1e3 message="all LSPs are disabled"
+timestamp=2026-10-02T22:59:00.786Z level=INFO run=6e86b1e3 message="all formatters are disabled"
+timestamp=2026-10-02T22:59:00.786Z level=INFO run=6e86b1e3 message=init
+timestamp=2026-10-02T22:59:00.866Z level=INFO run=6e86b1e3 message=created id=ses_f0128597dffeGLfLpdyA36hh5q slug=nimble-mountain version=local projectID=global directory=/private/tmp/opencode-lecore-cli-smoke/baseline path=private/tmp/opencode-lecore-cli-smoke/baseline workspaceID=undefined parentID=undefined title="New session - 2026-10-02T22:59:00.866Z" agent=undefined model=undefined metadata=undefined permission="[{\"permission\":\"question\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_enter\",\"pattern\":\"*\",\"action\":\"deny\"},{\"permission\":\"plan_exit\",\"pattern\":\"*\",\"action\":\"deny\"}]" cost=0 tokens.input=0 tokens.output=0 tokens.reasoning=0 tokens.cache.read=0 tokens.cache.write=0 time.created=1790981940866 time.updated=1790981940866
+timestamp=2026-10-02T22:59:00.879Z level=INFO run=6e86b1e3 message="event connected"
+timestamp=2026-10-02T22:59:01.136Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=0
+timestamp=2026-10-02T22:59:01.144Z level=INFO run=6e86b1e3 message="shell tool using shell" shell=/bin/zsh
+timestamp=2026-10-02T22:59:01.157Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=gpt-5.4-nano session.id=ses_f0128597dffeGLfLpdyA36hh5q small=true agent=title mode=primary
+timestamp=2026-10-02T22:59:01.160Z level=INFO run=6e86b1e3 message=init count=14
+timestamp=2026-10-02T22:59:01.171Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=524 outputChars=524 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:01.171Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=gpt-5.4-nano
+timestamp=2026-10-02T22:59:01.713Z level=INFO run=6e86b1e3 message="watcher backend" directory=/private/tmp/opencode-lecore-cli-smoke/baseline platform=darwin backend=fs-events
+timestamp=2026-10-02T22:59:01.718Z level=INFO run=6e86b1e3 message="project copy refresh started" projectID=global
+timestamp=2026-10-02T22:59:01.719Z level=INFO run=6e86b1e3 message="project copy refresh done" projectID=global updated=[] removed=[]
+timestamp=2026-10-02T22:59:01.726Z level=INFO run=6e86b1e3 message="booting location services" directory=/private/tmp/opencode-lecore-cli-smoke/baseline workspaceID=undefined
+timestamp=2026-10-02T22:59:01.875Z level=INFO run=6e86b1e3 message=process session.id=ses_f0128597dffeGLfLpdyA36hh5q messageID=msg_0fed7a792001q209jp3FBDeEm5
+timestamp=2026-10-02T22:59:01.875Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=glm-5.3-flash session.id=ses_f0128597dffeGLfLpdyA36hh5q small=false agent=build mode=primary
+timestamp=2026-10-02T22:59:01.879Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=484 outputChars=484 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:01.879Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=glm-5.3-flash
+timestamp=2026-10-02T22:59:03.619Z level=INFO run=6e86b1e3 message=evaluated permission=read pattern=private/tmp/opencode-lecore-cli-smoke/baseline action.permission=read action.action=allow action.pattern=*
+timestamp=2026-10-02T22:59:03.634Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=1
+timestamp=2026-10-02T22:59:03.649Z level=INFO run=6e86b1e3 message=process session.id=ses_f0128597dffeGLfLpdyA36hh5q messageID=msg_0fed7b153001V7fQP0gtdHh6NH
+timestamp=2026-10-02T22:59:03.649Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=glm-5.3-flash session.id=ses_f0128597dffeGLfLpdyA36hh5q small=false agent=build mode=primary
+timestamp=2026-10-02T22:59:03.650Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=638 outputChars=638 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:03.650Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=glm-5.3-flash
+timestamp=2026-10-02T22:59:05.040Z level=INFO run=6e86b1e3 message=evaluated permission=read pattern=private/tmp/opencode-lecore-cli-smoke/baseline/retry.py action.permission=read action.action=allow action.pattern=*
+timestamp=2026-10-02T22:59:05.046Z level=INFO run=6e86b1e3 message="touching file" file=/private/tmp/opencode-lecore-cli-smoke/baseline/retry.py
+timestamp=2026-10-02T22:59:05.343Z level=INFO run=6e86b1e3 message=evaluated permission=read pattern=private/tmp/opencode-lecore-cli-smoke/baseline/test_retry.py action.permission=read action.action=allow action.pattern=*
+timestamp=2026-10-02T22:59:05.351Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=2
+timestamp=2026-10-02T22:59:05.355Z level=INFO run=6e86b1e3 message="touching file" file=/private/tmp/opencode-lecore-cli-smoke/baseline/test_retry.py
+timestamp=2026-10-02T22:59:05.359Z level=INFO run=6e86b1e3 message=process session.id=ses_f0128597dffeGLfLpdyA36hh5q messageID=msg_0fed7b808001x2A1jYkCjzKU48
+timestamp=2026-10-02T22:59:05.360Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=glm-5.3-flash session.id=ses_f0128597dffeGLfLpdyA36hh5q small=false agent=build mode=primary
+timestamp=2026-10-02T22:59:05.361Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=3078 outputChars=3078 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:05.361Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=glm-5.3-flash
+timestamp=2026-10-02T22:59:12.147Z level=INFO run=6e86b1e3 message=evaluated permission=edit pattern=private/tmp/opencode-lecore-cli-smoke/baseline/retry.py action.permission=edit action.action=allow action.pattern=*
+timestamp=2026-10-02T22:59:12.148Z level=INFO run=6e86b1e3 message=formatting file=/private/tmp/opencode-lecore-cli-smoke/baseline/retry.py
+timestamp=2026-10-02T22:59:12.148Z level=INFO run=6e86b1e3 message="touching file" file=/private/tmp/opencode-lecore-cli-smoke/baseline/retry.py
+timestamp=2026-10-02T22:59:12.154Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=3
+timestamp=2026-10-02T22:59:12.161Z level=INFO run=6e86b1e3 message=process session.id=ses_f0128597dffeGLfLpdyA36hh5q messageID=msg_0fed7d29a001WxmqaHF8NUPpAP
+timestamp=2026-10-02T22:59:12.162Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=glm-5.3-flash session.id=ses_f0128597dffeGLfLpdyA36hh5q small=false agent=build mode=primary
+timestamp=2026-10-02T22:59:12.163Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=3102 outputChars=3102 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:12.163Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=glm-5.3-flash
+timestamp=2026-10-02T22:59:14.163Z level=INFO run=6e86b1e3 message=evaluated permission=bash pattern="python3 -m unittest -v" action.permission=bash action.action=allow action.pattern=*
+timestamp=2026-10-02T22:59:14.563Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=4
+timestamp=2026-10-02T22:59:14.569Z level=INFO run=6e86b1e3 message=process session.id=ses_f0128597dffeGLfLpdyA36hh5q messageID=msg_0fed7dc04001RZEVchNRmU5Hvj
+timestamp=2026-10-02T22:59:14.569Z level=INFO run=6e86b1e3 message=stream providerID=opencode modelID=glm-5.3-flash session.id=ses_f0128597dffeGLfLpdyA36hh5q small=false agent=build mode=primary
+timestamp=2026-10-02T22:59:14.570Z level=INFO run=6e86b1e3 message="lecore inference" enabled=false engine=disabled inputChars=3814 outputChars=3814 removedChars=0 indexedItems=0 recalledItems=0 elapsedMs=0
+timestamp=2026-10-02T22:59:14.571Z level=INFO run=6e86b1e3 message="llm runtime selected" llm.runtime=ai-sdk llm.provider=opencode llm.model=glm-5.3-flash
+timestamp=2026-10-02T22:59:17.503Z level=INFO run=6e86b1e3 message=loop session.id=ses_f0128597dffeGLfLpdyA36hh5q step=5
+timestamp=2026-10-02T22:59:17.504Z level=INFO run=6e86b1e3 message="exiting loop" session.id=ses_f0128597dffeGLfLpdyA36hh5q
+timestamp=2026-10-02T22:59:17.507Z level=INFO run=6e86b1e3 message="disposing instance" directory=/private/tmp/opencode-lecore-cli-smoke/baseline

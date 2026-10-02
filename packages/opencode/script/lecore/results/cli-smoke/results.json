@@ -1,0 +1,233 @@
+[
+  {
+    "arm": "baseline",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 17.65,
+    "tests_passed": true,
+    "step_finishes": 5,
+    "usage": [
+      {
+        "id": "prt_0fed7b14b001zlr3xb4x50Pj1W",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7a792001q209jp3FBDeEm5",
+        "sessionID": "ses_f0128597dffeGLfLpdyA36hh5q",
+        "type": "step-finish",
+        "tokens": {
+          "total": 10567,
+          "input": 10529,
+          "output": 38,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0.00159835
+      },
+      {
+        "id": "prt_0fed7b8040016K2U4JSF9tQIJs",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7b153001V7fQP0gtdHh6NH",
+        "sessionID": "ses_f0128597dffeGLfLpdyA36hh5q",
+        "type": "step-finish",
+        "tokens": {
+          "total": 10661,
+          "input": 10615,
+          "output": 46,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0.00161525
+      },
+      {
+        "id": "prt_0fed7d2970014Mq6WBGVIKsJVn",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7b808001x2A1jYkCjzKU48",
+        "sessionID": "ses_f0128597dffeGLfLpdyA36hh5q",
+        "type": "step-finish",
+        "tokens": {
+          "total": 11796,
+          "input": 11318,
+          "output": 478,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0.0019367
+      },
+      {
+        "id": "prt_0fed7dc01001w6IT2JPMYeW68C",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7d29a001WxmqaHF8NUPpAP",
+        "sessionID": "ses_f0128597dffeGLfLpdyA36hh5q",
+        "type": "step-finish",
+        "tokens": {
+          "total": 11839,
+          "input": 29,
+          "output": 34,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 11776
+          }
+        },
+        "cost": 0.00037463
+      },
+      {
+        "id": "prt_0fed7e77b001wYNig8pykymv93",
+        "reason": "stop",
+        "messageID": "msg_0fed7dc04001RZEVchNRmU5Hvj",
+        "sessionID": "ses_f0128597dffeGLfLpdyA36hh5q",
+        "type": "step-finish",
+        "tokens": {
+          "total": 12145,
+          "input": 228,
+          "output": 141,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 11776
+          }
+        },
+        "cost": 0.00045798
+      }
+    ],
+    "fixture_path": "/tmp/opencode-lecore-cli-smoke/baseline",
+    "events": "/tmp/opencode-lecore-cli-smoke/baseline.events.jsonl",
+    "stderr": "/tmp/opencode-lecore-cli-smoke/baseline.stderr.txt",
+    "cost_usd": 0.00598291,
+    "prompt_tokens": 56271,
+    "cached_tokens": 23552,
+    "output_tokens": 737,
+    "tools": [
+      "read",
+      "read",
+      "read",
+      "write",
+      "bash"
+    ],
+    "tool_failures": []
+  },
+  {
+    "arm": "lecore",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 13.52,
+    "tests_passed": true,
+    "step_finishes": 5,
+    "usage": [
+      {
+        "id": "prt_0fed7f5a1001ahDY9K56sKIRy3",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7ec2f001zzQ95X4svORhZ3",
+        "sessionID": "ses_f012814c6ffeqvRH5j7dp0D2Tb",
+        "type": "step-finish",
+        "tokens": {
+          "total": 10572,
+          "input": 10530,
+          "output": 42,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 0
+          }
+        },
+        "cost": 0.0016005
+      },
+      {
+        "id": "prt_0fed7fbfd001YsnPSPj0oRYKQD",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7f5a7001DG4G73GIpPiYQt",
+        "sessionID": "ses_f012814c6ffeqvRH5j7dp0D2Tb",
+        "type": "step-finish",
+        "tokens": {
+          "total": 10652,
+          "input": 10476,
+          "output": 48,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 128
+          }
+        },
+        "cost": 0.00159924
+      },
+      {
+        "id": "prt_0fed80d1e001VBvnRy6yt2lWOl",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed7fc000016FC2KemYQwbR11",
+        "sessionID": "ses_f012814c6ffeqvRH5j7dp0D2Tb",
+        "type": "step-finish",
+        "tokens": {
+          "total": 11536,
+          "input": 751,
+          "output": 225,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 10560
+          }
+        },
+        "cost": 0.00054195
+      },
+      {
+        "id": "prt_0fed814a2001QXRjvo2aMXR654",
+        "reason": "tool-calls",
+        "messageID": "msg_0fed80d22001BvXYAsELmEEJ3j",
+        "sessionID": "ses_f012814c6ffeqvRH5j7dp0D2Tb",
+        "type": "step-finish",
+        "tokens": {
+          "total": 11580,
+          "input": 25,
+          "output": 35,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 11520
+          }
+        },
+        "cost": 0.00036685
+      },
+      {
+        "id": "prt_0fed81c37001OGK3gzw4bmgp1E",
+        "reason": "stop",
+        "messageID": "msg_0fed814a50018tsOP7kzIYuIQf",
+        "sessionID": "ses_f012814c6ffeqvRH5j7dp0D2Tb",
+        "type": "step-finish",
+        "tokens": {
+          "total": 11836,
+          "input": 225,
+          "output": 91,
+          "reasoning": 0,
+          "cache": {
+            "write": 0,
+            "read": 11520
+          }
+        },
+        "cost": 0.00042485
+      }
+    ],
+    "fixture_path": "/tmp/opencode-lecore-cli-smoke/lecore",
+    "events": "/tmp/opencode-lecore-cli-smoke/lecore.events.jsonl",
+    "stderr": "/tmp/opencode-lecore-cli-smoke/lecore.stderr.txt",
+    "cost_usd": 0.00453339,
+    "prompt_tokens": 55735,
+    "cached_tokens": 33728,
+    "output_tokens": 441,
+    "tools": [
+      "glob",
+      "bash",
+      "read",
+      "read",
+      "write",
+      "bash"
+    ],
+    "tool_failures": []
+  }
+]

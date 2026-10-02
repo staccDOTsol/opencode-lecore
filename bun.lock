@@ -324,6 +324,7 @@
         "@npmcli/config": "10.8.1",
         "@opencode-ai/effect-drizzle-sqlite": "workspace:*",
         "@opencode-ai/effect-sqlite-node": "workspace:*",
+        "@opencode-ai/lecore": "workspace:*",
         "@opencode-ai/llm": "workspace:*",
         "@opencode-ai/plugin": "workspace:*",
         "@opencode-ai/schema": "workspace:*",
@@ -541,6 +542,16 @@
         "@typescript/native-preview": "catalog:",
       },
     },
+    "packages/lecore": {
+      "name": "@opencode-ai/lecore",
+      "version": "0.1.0",
+      "devDependencies": {
+        "@tsconfig/bun": "catalog:",
+        "@types/bun": "catalog:",
+        "@types/node": "catalog:",
+        "@typescript/native-preview": "catalog:",
+      },
+    },
     "packages/llm": {
       "name": "@opencode-ai/llm",
       "version": "1.18.34",
@@ -600,6 +611,7 @@
         "@octokit/rest": "catalog:",
         "@openauthjs/openauth": "catalog:",
         "@opencode-ai/codemode": "workspace:*",
+        "@opencode-ai/lecore": "workspace:*",
         "@opencode-ai/llm": "workspace:*",
         "@opencode-ai/plugin": "workspace:*",
         "@opencode-ai/protocol": "workspace:*",
@@ -1969,6 +1981,8 @@
     "@opencode-ai/http-recorder": ["@opencode-ai/http-recorder@workspace:packages/http-recorder"],
 
     "@opencode-ai/httpapi-codegen": ["@opencode-ai/httpapi-codegen@workspace:packages/httpapi-codegen"],
+
+    "@opencode-ai/lecore": ["@opencode-ai/lecore@workspace:packages/lecore"],
 
     "@opencode-ai/llm": ["@opencode-ai/llm@workspace:packages/llm"],
 

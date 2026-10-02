@@ -28,6 +28,7 @@ import { AppNodeBuilder } from "@opencode-ai/core/effect/app-node-builder"
 import { LayerNode } from "@opencode-ai/core/effect/layer-node"
 import { LayerNodePlatform } from "@opencode-ai/core/effect/app-node-platform"
 import { ProviderError } from "@/provider/error"
+import { closeWorkers } from "@opencode-ai/lecore"
 
 type ConfigModel = NonNullable<NonNullable<ConfigV1.Info["provider"]>[string]["models"]>[string]
 
@@ -171,6 +172,95 @@ describe("session.llm.hasToolCalls", () => {
     ] as ModelMessage[]
     expect(LLM.hasToolCalls(messages)).toBe(true)
   })
+})
+
+describe("lecore provider request boundary", () => {
+  afterAll(closeWorkers)
+  for (const native of [false, true]) {
+    for (const enabled of [false, true]) {
+      it.instance(
+        `${native ? "native" : "ai-sdk"} sends ${enabled ? "optimized" : "original baseline"} model inputs`,
+        () =>
+          Effect.gen(function* () {
+            const request = waitRequest(
+              "/responses",
+              createEventResponse(
+                [
+                  { type: "response.created", response: { id: "resp-lecore" } },
+                  {
+                    type: "response.completed",
+                    response: {
+                      id: "resp-lecore",
+                      incomplete_details: null,
+                      usage: {
+                        input_tokens: 1,
+                        input_tokens_details: null,
+                        output_tokens: 1,
+                        output_tokens_details: null,
+                      },
+                    },
+                  },
+                ],
+                true,
+              ),
+            )
+            const resolved = yield* Provider.use.getModel(ProviderV2.ID.openai, ModelV2.ID.make("gpt-5.2"))
+            const sessionID = SessionID.make(`session-lecore-${crypto.randomUUID()}`)
+            const agent = {
+              name: "test",
+              mode: "primary",
+              options: {},
+              permission: [{ permission: "*", pattern: "*", action: "allow" }],
+            } satisfies Agent.Info
+            const history =
+              "Unrelated satellite telemetry. ".repeat(80) +
+              "MIDDLE_SOURCE_SENTINEL_7381" +
+              "Unrelated telemetry. ".repeat(80)
+            const messages: ModelMessage[] = [
+              { role: "user", content: "Inspect deployment configuration and answer the final question." },
+              { role: "assistant", content: history },
+              ...Array.from({ length: 8 }, () => ({
+                role: "assistant" as const,
+                content: "Unrelated satellite logs. ".repeat(30),
+              })),
+              { role: "user", content: "What is the cobalt gateway? Preserve this latest intent exactly." },
+            ]
+            yield* drainWith(llmLayerWithExecutor({ flags: { experimentalNativeLlm: native } }), {
+              user: {
+                id: MessageID.make("msg-lecore-boundary"),
+                sessionID,
+                role: "user",
+                time: { created: Date.now() },
+                agent: agent.name,
+                model: { providerID: ProviderV2.ID.openai, modelID: resolved.id },
+              },
+              sessionID,
+              model: resolved,
+              agent,
+              system: ["PROTECTED_SYSTEM_INSTRUCTIONS"],
+              messages,
+              tools: {},
+            })
+            const capture = yield* Effect.promise(() => request)
+            const wire = JSON.stringify(capture.body.input)
+            expect(wire).toContain("PROTECTED_SYSTEM_INSTRUCTIONS")
+            expect(wire).toContain("Inspect deployment configuration and answer the final question.")
+            expect(wire).toContain("What is the cobalt gateway? Preserve this latest intent exactly.")
+            expect(wire.includes("lecore archived")).toBe(enabled)
+            expect(wire.includes("MIDDLE_SOURCE_SENTINEL_7381")).toBe(!enabled)
+            expect(capture.body.model).toBe(resolved.api.id)
+            expect(capture.headers.get("Authorization")).toBe("Bearer test-openai-key")
+            expect(messages[1].content).toBe(history)
+          }),
+        {
+          config: () => ({
+            ...openAIConfig(loadFixture("openai", "gpt-5.2").model, `${state.server!.url.origin}/v1`),
+            lecore: { enabled, minimumChars: 0, recentMessages: 2, budgetChars: 1000 },
+          }),
+        },
+      )
+    }
+  }
 })
 
 describe("session.llm.ai-sdk adapter", () => {

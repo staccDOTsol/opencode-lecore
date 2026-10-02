@@ -39,6 +39,7 @@ import { MAX_STEPS_PROMPT } from "./max-steps"
 import { Snapshot } from "../../snapshot"
 import { makeLocationNode } from "../../effect/app-node"
 import { llmClient } from "../../effect/app-node-platform"
+import { LecoreInference } from "../lecore"
 
 /**
  * Runs one durable coding-agent Session until it settles.
@@ -106,7 +107,9 @@ const layer = Layer.effect(
     const config = yield* Config.Service
     const snapshots = yield* Snapshot.Service
     const db = (yield* Database.Service).db
-    const compaction = SessionCompaction.make({ events, llm, config: yield* config.entries() })
+    const documents = yield* config.entries()
+    const lecoreConfig = Config.latest(documents, "lecore")
+    const compaction = SessionCompaction.make({ events, llm, config: documents, workspace: location.directory })
     const getSession = Effect.fn("SessionRunner.getSession")(function* (sessionID: SessionSchema.ID) {
       const session = yield* store.get(sessionID)
       if (!session) return yield* Effect.die(`Session not found: ${sessionID}`)
@@ -202,7 +205,7 @@ const layer = Layer.effect(
       const isLastStep = agent.info?.steps !== undefined && currentStep >= agent.info.steps
       const toolMaterialization = isLastStep ? undefined : yield* tools.materialize(agent.info?.permissions)
       const promptCacheKey = /^ses_[0-9a-f]{64}$/.test(session.id) ? session.id.slice(4) : session.id
-      const request = LLM.request({
+      const assembled = LLM.request({
         model,
         http: {
           headers: {
@@ -220,6 +223,13 @@ const layer = Layer.effect(
         messages: [...toLLMMessages(context, model), ...(isLastStep ? [Message.assistant(MAX_STEPS_PROMPT)] : [])],
         tools: toolMaterialization?.definitions ?? [],
         toolChoice: isLastStep ? "none" : undefined,
+      })
+      const request = yield* LecoreInference.prepare({
+        request: assembled,
+        workspace: location.directory,
+        sessionID: session.id,
+        purpose: "agent-turn",
+        config: lecoreConfig,
       })
       if (yield* compaction.compactIfNeeded({ sessionID: session.id, entries, model, request }))
         return yield* Effect.die(continueAfterCompaction(currentStep))

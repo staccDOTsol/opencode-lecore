@@ -31,6 +31,7 @@ import { LocationServiceMap, locationServiceMapLayer } from "@opencode-ai/core/l
 import { Reference } from "@opencode-ai/core/reference"
 import { Location } from "@opencode-ai/core/location"
 import { PluginV2 } from "@opencode-ai/core/plugin"
+import { isEnabled, transformMessages } from "@opencode-ai/lecore"
 
 export const Info = Schema.Struct({
   name: Schema.String,
@@ -414,11 +415,25 @@ const layer = Layer.effect(
             Schema.toStandardJSONSchemaV1(GeneratedAgent),
           ),
         } satisfies Parameters<typeof generateObject>[0]
+        const directory = yield* InstanceState.directory
+        const optimized = isEnabled(cfg.lecore)
+          ? yield* Effect.promise((signal) =>
+              transformMessages(params.messages, {
+                workspace: directory,
+                sessionID: `agent-generator:${crypto.randomUUID()}`,
+                purpose: "agent-generator",
+                config: cfg.lecore,
+                signal,
+              }),
+            )
+          : { messages: params.messages, metrics: undefined }
+        const prepared = { ...params, messages: optimized.messages }
+        if (optimized.metrics) yield* Effect.logInfo("lecore inference", optimized.metrics)
 
         if (isOpenaiOauth) {
           return yield* Effect.promise(async () => {
             const result = streamObject({
-              ...params,
+              ...prepared,
               providerOptions: ProviderTransform.providerOptions(resolved, {
                 instructions: system.join("\n"),
                 store: false,
@@ -432,7 +447,7 @@ const layer = Layer.effect(
           })
         }
 
-        return yield* Effect.promise(() => generateObject(params).then((r) => r.object))
+        return yield* Effect.promise(() => generateObject(prepared).then((r) => r.object))
       }),
     })
   }),

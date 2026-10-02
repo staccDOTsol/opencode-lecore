@@ -2,12 +2,13 @@ export * as SessionCompaction from "./compaction"
 
 import { LLM, LLMError, LLMEvent, Message, type LLMRequest, type Model } from "@opencode-ai/llm"
 import { DateTime, Effect, Stream } from "effect"
-import type { Config } from "../config"
+import { Config } from "../config"
 import type { EventV2 } from "../event"
 import { SessionEvent } from "./event"
 import { SessionMessage } from "./message"
 import { SessionSchema } from "./schema"
 import { Token } from "../util/token"
+import { LecoreInference } from "./lecore"
 
 const DEFAULT_BUFFER = 20_000
 const DEFAULT_KEEP_TOKENS = 8_000
@@ -71,6 +72,7 @@ type Dependencies = {
     readonly stream: (request: LLMRequest) => Stream.Stream<LLMEvent, LLMError>
   }
   readonly config: readonly Config.Entry[]
+  readonly workspace?: string
 }
 
 type Input = {
@@ -198,25 +200,28 @@ export const make = (dependencies: Dependencies) => {
 
     const chunks: string[] = []
     let failed = false
-    const summarized = yield* dependencies.llm
-      .stream(
-        LLM.request({
-          model: input.model,
-          http: input.request.http,
-          messages: [Message.user(summaryPrompt)],
-          tools: [],
-          generation: { maxTokens: summaryOutput },
-        }),
-      )
-      .pipe(
-        Stream.runForEach((event) => {
-          if (LLMEvent.is.providerError(event)) failed = true
-          if (LLMEvent.is.textDelta(event)) chunks.push(event.text)
-          return Effect.void
-        }),
-        Effect.as(true),
-        Effect.catchTag("LLM.Error", () => Effect.succeed(false)),
-      )
+    const request = yield* LecoreInference.prepare({
+      request: LLM.request({
+        model: input.model,
+        http: input.request.http,
+        messages: [Message.user(summaryPrompt)],
+        tools: [],
+        generation: { maxTokens: summaryOutput },
+      }),
+      workspace: dependencies.workspace ?? process.cwd(),
+      sessionID: input.sessionID,
+      purpose: "compaction",
+      config: Config.latest(dependencies.config, "lecore"),
+    })
+    const summarized = yield* dependencies.llm.stream(request).pipe(
+      Stream.runForEach((event) => {
+        if (LLMEvent.is.providerError(event)) failed = true
+        if (LLMEvent.is.textDelta(event)) chunks.push(event.text)
+        return Effect.void
+      }),
+      Effect.as(true),
+      Effect.catchTag("LLM.Error", () => Effect.succeed(false)),
+    )
     const summary = chunks.join("")
     if (!summarized || failed || !summary.trim()) return false
     yield* dependencies.events.publish(SessionEvent.Compaction.Ended, {

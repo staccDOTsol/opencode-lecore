@@ -1,0 +1,543 @@
+{
+  "scope": "Direct model-input adapter benchmark; not a full OpenCode CLI or official LongMemEval score",
+  "started": "2026-10-02T23:06:17.331Z",
+  "finished": "2026-10-02T23:06:17.653Z",
+  "upstreamCommit": "108b988a08227df45417f27905a4d6b27ad49b6d",
+  "implementation": [
+    {
+      "file": "packages/lecore/src/index.ts",
+      "sha256": "e6822461a95cc02df46f0d9a730c54266cba8b6c2d7ad92a9fce588249f8fd39"
+    },
+    {
+      "file": "packages/lecore/src/worker.ts",
+      "sha256": "a2bdb3b8995ac854e2c1f4c732d5a26fe94fe9a93ef74801516840d543bc9e04"
+    },
+    {
+      "file": "packages/lecore/python/worker.py",
+      "sha256": "206a5fb11e8c5c58f7a36f609f8823684fb5fd6e17d79e8a8d5f90a210d94b9d"
+    }
+  ],
+  "live": false,
+  "model": "glm-5.3-flash",
+  "settings": {
+    "temperature": 0,
+    "maxOutputTokens": 512,
+    "maxRetries": 0,
+    "distractors": 80,
+    "seeds": 1,
+    "adapter": {
+      "minimumChars": 600,
+      "recentMessages": 6,
+      "budgetChars": 9000
+    }
+  },
+  "rows": [
+    {
+      "case": "earlier-fact",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "signing_header": "x-cobalt-eec544aa7387"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 29548,
+      "transformedChars": 29548,
+      "originalSha256": "e7a36a06e4439f964acdce3612cff030e677d59c4b939b3f7f7fb2c9fb6a4cb2",
+      "transformedSha256": "e7a36a06e4439f964acdce3612cff030e677d59c4b939b3f7f7fb2c9fb6a4cb2",
+      "requests": 0,
+      "prepareMs": 0.5803750000000036,
+      "totalMs": 0.7240830000000074,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 28817,
+        "outputChars": 28817,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    },
+    {
+      "case": "earlier-fact",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "signing_header": "x-cobalt-eec544aa7387"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 29548,
+      "transformedChars": 21748,
+      "originalSha256": "e7a36a06e4439f964acdce3612cff030e677d59c4b939b3f7f7fb2c9fb6a4cb2",
+      "transformedSha256": "3c518a36787de0468e45871f320270cdc371b692fa212f0a00481c81e557c6cd",
+      "requests": 0,
+      "prepareMs": 99.445333,
+      "totalMs": 99.57850000000002,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 28817,
+        "outputChars": 20928,
+        "removedChars": 7889,
+        "indexedItems": 23,
+        "recalledItems": 13,
+        "elapsedMs": 99.43754199999998,
+        "worker": {
+          "indexed_chunks": 85,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 85,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.324,
+          "no_match": false,
+          "scope": "8672171924ddfcafeb152230a86f7666fae7984682a220c72e60e9c02bb6bd5e",
+          "archived_items": 23,
+          "new_items": 23,
+          "original_versions": 23,
+          "replacement_items": 16,
+          "input_chars": 28817,
+          "transform_ms": 40.044
+        }
+      }
+    },
+    {
+      "case": "latest-correction",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "release_channel": "channel-8a1e33d422ba"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30741,
+      "transformedChars": 22153,
+      "originalSha256": "1c621397bec90a748e3d2fc352a1a4d66b77bd2871f053a00fb8568090ba6f20",
+      "transformedSha256": "23ac770f9d94292599787df5081504f5e0681f84573c1bded8afea2c0c4c58ea",
+      "requests": 0,
+      "prepareMs": 43.441666999999995,
+      "totalMs": 43.54699999999997,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 29978,
+        "outputChars": 21302,
+        "removedChars": 8676,
+        "indexedItems": 24,
+        "recalledItems": 13,
+        "elapsedMs": 43.43454200000002,
+        "worker": {
+          "indexed_chunks": 88,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 88,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.296,
+          "no_match": false,
+          "scope": "636191984992d5c2c726969bf9b859d8a4b385701158a673e1337dac461e7163",
+          "archived_items": 24,
+          "new_items": 24,
+          "original_versions": 24,
+          "replacement_items": 17,
+          "input_chars": 29978,
+          "transform_ms": 42.24
+        }
+      }
+    },
+    {
+      "case": "latest-correction",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "release_channel": "channel-8a1e33d422ba"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30741,
+      "transformedChars": 30741,
+      "originalSha256": "1c621397bec90a748e3d2fc352a1a4d66b77bd2871f053a00fb8568090ba6f20",
+      "transformedSha256": "1c621397bec90a748e3d2fc352a1a4d66b77bd2871f053a00fb8568090ba6f20",
+      "requests": 0,
+      "prepareMs": 0.10991699999999582,
+      "totalMs": 0.1989590000000021,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 29978,
+        "outputChars": 29978,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    },
+    {
+      "case": "two-source-evidence",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "gateway_hostname": "gw-0677e8c15284.internal",
+        "vault_handle": "vault/890c8732f0ae"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30870,
+      "transformedChars": 30870,
+      "originalSha256": "a24cb97d3065270a708567040072c47299bd9eb971bd3ff339bcde25f461aeda",
+      "transformedSha256": "a24cb97d3065270a708567040072c47299bd9eb971bd3ff339bcde25f461aeda",
+      "requests": 0,
+      "prepareMs": 0.14754199999998718,
+      "totalMs": 0.24579199999999446,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 30107,
+        "outputChars": 30107,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    },
+    {
+      "case": "two-source-evidence",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "gateway_hostname": "gw-0677e8c15284.internal",
+        "vault_handle": "vault/890c8732f0ae"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30870,
+      "transformedChars": 22222,
+      "originalSha256": "a24cb97d3065270a708567040072c47299bd9eb971bd3ff339bcde25f461aeda",
+      "transformedSha256": "aea3574590c79b17921c2fcae37bbca138ab6a4b734057832074d01f705c2e49",
+      "requests": 0,
+      "prepareMs": 43.766458,
+      "totalMs": 43.88520799999998,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 30107,
+        "outputChars": 21362,
+        "removedChars": 8745,
+        "indexedItems": 24,
+        "recalledItems": 13,
+        "elapsedMs": 43.754458,
+        "worker": {
+          "indexed_chunks": 88,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 88,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.301,
+          "no_match": false,
+          "scope": "7b29d177586309d86105f714596275bb02fd55d13b321920594124c550437cf6",
+          "archived_items": 24,
+          "new_items": 24,
+          "original_versions": 24,
+          "replacement_items": 17,
+          "input_chars": 30107,
+          "transform_ms": 42.445
+        }
+      }
+    },
+    {
+      "case": "unknown-field",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "failover_approval_code": null
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 29547,
+      "transformedChars": 21762,
+      "originalSha256": "94030df0c9d4530001618c31e444fd03507868da2aeb486a2a3c63baa726954a",
+      "transformedSha256": "d6d507dbd788c3c3d30c5bc6ef1ddb86abd41b7ede92550b65f21d01dad4b60f",
+      "requests": 0,
+      "prepareMs": 43.26529199999999,
+      "totalMs": 43.36737499999998,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 28816,
+        "outputChars": 20944,
+        "removedChars": 7872,
+        "indexedItems": 23,
+        "recalledItems": 13,
+        "elapsedMs": 43.25795900000003,
+        "worker": {
+          "indexed_chunks": 85,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 85,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.263,
+          "no_match": false,
+          "scope": "3595bee63f3a26160d191abc4900d30da30ead9d95e21341aa4b36476e2ca408",
+          "archived_items": 23,
+          "new_items": 23,
+          "original_versions": 23,
+          "replacement_items": 16,
+          "input_chars": 28816,
+          "transform_ms": 41.566
+        }
+      }
+    },
+    {
+      "case": "unknown-field",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "failover_approval_code": null
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 29547,
+      "transformedChars": 29547,
+      "originalSha256": "94030df0c9d4530001618c31e444fd03507868da2aeb486a2a3c63baa726954a",
+      "transformedSha256": "94030df0c9d4530001618c31e444fd03507868da2aeb486a2a3c63baa726954a",
+      "requests": 0,
+      "prepareMs": 0.09237500000000409,
+      "totalMs": 0.17587499999996226,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 28816,
+        "outputChars": 28816,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    },
+    {
+      "case": "untrusted-document",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "signing_header": "x-cobalt-eec544aa7387"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30063,
+      "transformedChars": 30063,
+      "originalSha256": "613af29045435eaa861b92d1a1bcdf4fc632e4d7f92763b2aa6959f9f3141fca",
+      "transformedSha256": "613af29045435eaa861b92d1a1bcdf4fc632e4d7f92763b2aa6959f9f3141fca",
+      "requests": 0,
+      "prepareMs": 0.2560839999999871,
+      "totalMs": 0.3482089999999971,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 29054,
+        "outputChars": 29054,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    },
+    {
+      "case": "untrusted-document",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "signing_header": "x-cobalt-eec544aa7387"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30063,
+      "transformedChars": 22278,
+      "originalSha256": "613af29045435eaa861b92d1a1bcdf4fc632e4d7f92763b2aa6959f9f3141fca",
+      "transformedSha256": "2d5d3b185c6ea79f3a84d36d5a5284912c50f95196182d7bfe173fd27a92692a",
+      "requests": 0,
+      "prepareMs": 41.57658299999997,
+      "totalMs": 41.69349999999997,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 29054,
+        "outputChars": 21182,
+        "removedChars": 7872,
+        "indexedItems": 24,
+        "recalledItems": 13,
+        "elapsedMs": 41.570333000000005,
+        "worker": {
+          "indexed_chunks": 86,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 86,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.248,
+          "no_match": false,
+          "scope": "e177f45fe0f0774a1bc06764a2e4746bc6699b2734a4e02ea6d375fdb81e5476",
+          "archived_items": 24,
+          "new_items": 24,
+          "original_versions": 24,
+          "replacement_items": 16,
+          "input_chars": 29054,
+          "transform_ms": 40.5
+        }
+      }
+    },
+    {
+      "case": "tool-continuation",
+      "seed": 0,
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "gateway_hostname": "gw-0677e8c15284.internal"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30261,
+      "transformedChars": 20455,
+      "originalSha256": "1aa9d58eeb89f48f9a5200d5dd7ac80ae8011c12bf4dc3529887914c6c3b95a2",
+      "transformedSha256": "33604790f780196c592eec18812d64fe14e140e629416ea7df3cf83bb8db37ba",
+      "requests": 0,
+      "prepareMs": 41.28587500000003,
+      "totalMs": 41.40812500000004,
+      "memory": {
+        "enabled": true,
+        "engine": "leCore",
+        "inputChars": 28982,
+        "outputChars": 19083,
+        "removedChars": 9899,
+        "indexedItems": 25,
+        "recalledItems": 13,
+        "elapsedMs": 41.27437500000008,
+        "worker": {
+          "indexed_chunks": 87,
+          "retrieved_chunks": 13,
+          "evidence_chars": 9000,
+          "candidate_chunks": 87,
+          "coverage_complete": false,
+          "candidate_certificate": {
+            "complete_down_to": null,
+            "tier_sizes": {},
+            "added": 0
+          },
+          "stale_items": 0,
+          "index_rebuilt": true,
+          "guard_cached": false,
+          "retrieval_ms": 0.315,
+          "no_match": false,
+          "scope": "f0401f1eb546c354d3a0531c062a27800c780ad82a13da3b4714b227529d8d65",
+          "archived_items": 25,
+          "new_items": 25,
+          "original_versions": 25,
+          "replacement_items": 18,
+          "input_chars": 28982,
+          "transform_ms": 40.147
+        }
+      }
+    },
+    {
+      "case": "tool-continuation",
+      "seed": 0,
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "expected": {
+        "gateway_hostname": "gw-0677e8c15284.internal"
+      },
+      "toolIntegrityErrors": [],
+      "baselineReferenceIdentical": true,
+      "originalChars": 30261,
+      "transformedChars": 30261,
+      "originalSha256": "1aa9d58eeb89f48f9a5200d5dd7ac80ae8011c12bf4dc3529887914c6c3b95a2",
+      "transformedSha256": "1aa9d58eeb89f48f9a5200d5dd7ac80ae8011c12bf4dc3529887914c6c3b95a2",
+      "requests": 0,
+      "prepareMs": 1.6717499999999745,
+      "totalMs": 1.8118329999999787,
+      "memory": {
+        "enabled": false,
+        "engine": "disabled",
+        "inputChars": 28982,
+        "outputChars": 28982,
+        "removedChars": 0,
+        "indexedItems": 0,
+        "recalledItems": 0,
+        "elapsedMs": 0
+      }
+    }
+  ],
+  "summary": [
+    {
+      "arm": "baseline",
+      "cases": 6,
+      "totalMs": 3.504750999999942,
+      "p50TotalMs": 0.3482089999999971,
+      "prepareMs": 2.8580429999999524,
+      "invalidHistories": 0
+    },
+    {
+      "arm": "lecore",
+      "cases": 6,
+      "totalMs": 313.47970799999996,
+      "p50TotalMs": 43.54699999999997,
+      "prepareMs": 312.781208,
+      "invalidHistories": 0
+    }
+  ],
+  "pricingEstimate": {
+    "source": "https://opencode.ai/docs/zen/",
+    "inputPerMillionUsd": 0.15,
+    "outputPerMillionUsd": 0.5,
+    "cachedReadPerMillionUsd": 0.03,
+    "observedCharge": false
+  }
+}

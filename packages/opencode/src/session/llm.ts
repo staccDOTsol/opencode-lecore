@@ -29,6 +29,8 @@ import * as OtelTracer from "@effect/opentelemetry/Tracer"
 import { LLMAISDK } from "./llm/ai-sdk"
 import { LLMNativeRuntime } from "./llm/native-runtime"
 import { LLMRequestPrep } from "./llm/request"
+import { isEnabled, transformMessages } from "@opencode-ai/lecore"
+import { InstanceState } from "@/effect/instance-state"
 
 export const OUTPUT_TOKEN_MAX = ProviderTransform.OUTPUT_TOKEN_MAX
 
@@ -103,7 +105,7 @@ const live: Layer.Layer<
       )
 
       const isWorkflow = language instanceof GitLabWorkflowLanguageModel
-      const prepared = yield* LLMRequestPrep.prepare({
+      const assembled = yield* LLMRequestPrep.prepare({
         ...input,
         provider: item,
         auth: info,
@@ -111,6 +113,22 @@ const live: Layer.Layer<
         flags,
         isWorkflow,
       })
+      const directory = yield* InstanceState.directory
+      const optimized = isEnabled(cfg.lecore)
+        ? yield* Effect.tryPromise({
+            try: () =>
+              transformMessages(assembled.messages, {
+                workspace: directory,
+                sessionID: input.sessionID,
+                purpose: input.small ? "auxiliary" : "agent-turn",
+                signal: input.abort,
+                config: cfg.lecore,
+              }),
+            catch: (error) => error,
+          })
+        : { messages: assembled.messages, metrics: undefined }
+      const prepared = { ...assembled, messages: optimized.messages }
+      if (optimized.metrics) yield* Effect.logInfo("lecore inference", optimized.metrics)
 
       // Wire up toolExecutor for DWS workflow models so that tool calls
       // from the workflow service are executed via opencode's tool system

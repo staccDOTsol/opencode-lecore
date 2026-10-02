@@ -51,6 +51,7 @@ export function migrate(info: typeof ConfigV1.Info.Type) {
     attachments: info.attachment,
     tool_output: info.tool_output,
     mcp: mcp(info),
+    lecore: info.lecore,
     compaction: info.compaction && {
       auto: info.compaction.auto,
       prune: info.compaction.prune,

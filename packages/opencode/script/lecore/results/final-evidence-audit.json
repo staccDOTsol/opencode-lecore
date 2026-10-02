@@ -1,0 +1,46 @@
+{
+  "scope": "Preparation-only evidence availability audit after provenance fix; no provider requests or model-accuracy claim",
+  "rows": [
+    {
+      "case": "earlier-fact",
+      "knownEvidencePresent": {
+        "signing_header": true
+      },
+      "retrieved": 13
+    },
+    {
+      "case": "latest-correction",
+      "knownEvidencePresent": {
+        "release_channel": true
+      },
+      "retrieved": 13
+    },
+    {
+      "case": "two-source-evidence",
+      "knownEvidencePresent": {
+        "gateway_hostname": true,
+        "vault_handle": true
+      },
+      "retrieved": 13
+    },
+    {
+      "case": "unknown-field",
+      "knownEvidencePresent": {},
+      "retrieved": 13
+    },
+    {
+      "case": "untrusted-document",
+      "knownEvidencePresent": {
+        "signing_header": true
+      },
+      "retrieved": 13
+    },
+    {
+      "case": "tool-continuation",
+      "knownEvidencePresent": {
+        "gateway_hostname": true
+      },
+      "retrieved": 13
+    }
+  ]
+}

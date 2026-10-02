@@ -2014,6 +2014,7 @@ export type Config = {
     max_lines?: number
     max_bytes?: number
   }
+  lecore?: ConfigLecore
   compaction?: {
     auto?: boolean
     prune?: boolean
@@ -3837,6 +3838,17 @@ export type ConfigV2ReferenceLocal = {
   path: string
   description?: string
   hidden?: boolean
+}
+
+export type ConfigLecore = {
+  enabled?: boolean
+  recentMessages?: number
+  minimumChars?: number
+  budgetChars?: number
+  python?: string
+  workerPath?: string
+  timeoutMs?: number
+  cacheDirectory?: string
 }
 
 export type PolicyEffect = "allow" | "deny"

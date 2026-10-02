@@ -1,0 +1,432 @@
+{
+  "scope": "Real file repair through tools and the fork's adapter before every provider step; not the OpenCode CLI",
+  "upstreamCommit": "108b988a08227df45417f27905a4d6b27ad49b6d",
+  "implementation": [
+    {
+      "file": "packages/lecore/src/index.ts",
+      "sha256": "87d2462d2cdabc8da5b7197a20f0986e1f4c67675b08b6816e9407958936ba8a"
+    },
+    {
+      "file": "packages/lecore/src/worker.ts",
+      "sha256": "1eee8beecc8bbddad825a53eb8b98a573fe792cc1f50c4bc877ceab4c71b45d1"
+    },
+    {
+      "file": "packages/lecore/python/worker.py",
+      "sha256": "206a5fb11e8c5c58f7a36f609f8823684fb5fd6e17d79e8a8d5f90a210d94b9d"
+    }
+  ],
+  "timestamp": "2026-10-02T23:03:20.532Z",
+  "model": "glm-5.3-flash",
+  "live": true,
+  "settings": {
+    "temperature": 0,
+    "maxOutputTokens": 4096,
+    "maxRetries": 0,
+    "maxTurnsPerArm": 3,
+    "adapter": {
+      "minimumChars": 600,
+      "recentMessages": 6,
+      "budgetChars": 9000
+    }
+  },
+  "rows": [
+    {
+      "arm": "baseline",
+      "model": "glm-5.3-flash",
+      "live": true,
+      "passed": true,
+      "failures": [],
+      "requests": 3,
+      "usage": {
+        "inputTokens": 23729,
+        "inputTokenDetails": {
+          "noCacheTokens": 433,
+          "cacheReadTokens": 23296
+        },
+        "outputTokens": 744,
+        "outputTokenDetails": {
+          "textTokens": 744,
+          "reasoningTokens": 0
+        },
+        "totalTokens": 24473,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 23296
+      },
+      "finishReason": "stop",
+      "steps": [
+        {
+          "finishReason": "tool-calls",
+          "usage": {
+            "inputTokens": 7572,
+            "inputTokenDetails": {
+              "noCacheTokens": 20,
+              "cacheReadTokens": 7552
+            },
+            "outputTokens": 47,
+            "outputTokenDetails": {
+              "textTokens": 47,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 7619,
+            "raw": {
+              "prompt_tokens": 7572,
+              "completion_tokens": 47,
+              "total_tokens": 7619,
+              "prompt_tokens_details": {
+                "cached_tokens": 7552
+              }
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 7552
+          },
+          "toolCalls": [
+            {
+              "toolName": "read_file",
+              "toolCallId": "call_7c0b7934a5c043d299c45a7f"
+            },
+            {
+              "toolName": "read_file",
+              "toolCallId": "call_81d53043ac18484c9feb9033"
+            }
+          ]
+        },
+        {
+          "finishReason": "tool-calls",
+          "usage": {
+            "inputTokens": 7827,
+            "inputTokenDetails": {
+              "noCacheTokens": 275,
+              "cacheReadTokens": 7552
+            },
+            "outputTokens": 491,
+            "outputTokenDetails": {
+              "textTokens": 491,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 8318,
+            "raw": {
+              "prompt_tokens": 7827,
+              "completion_tokens": 491,
+              "total_tokens": 8318,
+              "prompt_tokens_details": {
+                "cached_tokens": 7552
+              }
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 7552
+          },
+          "toolCalls": [
+            {
+              "toolName": "write_file",
+              "toolCallId": "call_bcf232a174144394a115140e"
+            }
+          ]
+        },
+        {
+          "finishReason": "stop",
+          "usage": {
+            "inputTokens": 8330,
+            "inputTokenDetails": {
+              "noCacheTokens": 138,
+              "cacheReadTokens": 8192
+            },
+            "outputTokens": 206,
+            "outputTokenDetails": {
+              "textTokens": 206,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 8536,
+            "raw": {
+              "prompt_tokens": 8330,
+              "completion_tokens": 206,
+              "total_tokens": 8536,
+              "prompt_tokens_details": {
+                "cached_tokens": 8192
+              }
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 8192
+          },
+          "toolCalls": []
+        }
+      ],
+      "answer": "Fixed `src/retry.ts` to match the documented contract:\n\n1. **One-based exponent**: changed `baseMs * 2 ** attempt` to `baseMs * 2 ** (attempt - 1)`, so attempt 1 starts at `baseMs` and attempt 2 doubles it.\n2. **Order of operations**: jitter is now multiplied in before the `maxMs` cap, and the cap is applied *after* rounding (`Math.min(maxMs, Math.round(...))`), guaranteeing the return value never exceeds `maxMs` even with jitter > 1.\n\nArgument validation is unchanged: non-positive or non-integer attempts throw, negative `baseMs`/`maxMs`/`jitter` throw, and zero jitter still yields 0 (0 rounds to 0, and `min(maxMs, 0)` is 0). The operations notes about satellite gateways/signing headers are unrelated deployment records and required no code changes.",
+      "tools": [
+        "read:src/retry.ts",
+        "read:docs/retry-contract.md",
+        "write:src/retry.ts"
+      ],
+      "toolIntegrityErrors": [],
+      "memory": [
+        {
+          "enabled": false,
+          "engine": "disabled",
+          "inputChars": 30335,
+          "outputChars": 30335,
+          "removedChars": 0,
+          "indexedItems": 0,
+          "recalledItems": 0,
+          "elapsedMs": 0
+        },
+        {
+          "enabled": false,
+          "engine": "disabled",
+          "inputChars": 30362,
+          "outputChars": 30362,
+          "removedChars": 0,
+          "indexedItems": 0,
+          "recalledItems": 0,
+          "elapsedMs": 0
+        },
+        {
+          "enabled": false,
+          "engine": "disabled",
+          "inputChars": 30722,
+          "outputChars": 30722,
+          "removedChars": 0,
+          "indexedItems": 0,
+          "recalledItems": 0,
+          "elapsedMs": 0
+        }
+      ],
+      "totalMs": 13839.88125,
+      "finalSource": "export function delay(attempt: number, baseMs: number, maxMs: number, jitter = 1) {\n  if (attempt < 1 || !Number.isInteger(attempt)) throw new Error(\"attempt must be positive integer\")\n  if (baseMs < 0 || maxMs < 0 || jitter < 0) throw new Error(\"negative option\")\n  return Math.min(maxMs, Math.round(baseMs * 2 ** (attempt - 1) * jitter))\n}\n",
+      "estimatedCostUsd": 0.00113583
+    },
+    {
+      "arm": "lecore",
+      "model": "glm-5.3-flash",
+      "live": true,
+      "passed": true,
+      "failures": [],
+      "requests": 3,
+      "usage": {
+        "inputTokens": 18970,
+        "inputTokenDetails": {
+          "noCacheTokens": 18970,
+          "cacheReadTokens": 0
+        },
+        "outputTokens": 1755,
+        "outputTokenDetails": {
+          "textTokens": 1755,
+          "reasoningTokens": 0
+        },
+        "totalTokens": 20725,
+        "reasoningTokens": 0,
+        "cachedInputTokens": 0
+      },
+      "finishReason": "stop",
+      "steps": [
+        {
+          "finishReason": "tool-calls",
+          "usage": {
+            "inputTokens": 6081,
+            "inputTokenDetails": {
+              "noCacheTokens": 6081,
+              "cacheReadTokens": 0
+            },
+            "outputTokens": 56,
+            "outputTokenDetails": {
+              "textTokens": 56,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 6137,
+            "raw": {
+              "prompt_tokens": 6081,
+              "completion_tokens": 56,
+              "total_tokens": 6137,
+              "prompt_tokens_details": {}
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 0
+          },
+          "toolCalls": [
+            {
+              "toolName": "read_file",
+              "toolCallId": "call_f66f51e10c9c41aea7c50c14"
+            },
+            {
+              "toolName": "read_file",
+              "toolCallId": "call_452f1fe732464e5b8dee276d"
+            }
+          ]
+        },
+        {
+          "finishReason": "tool-calls",
+          "usage": {
+            "inputTokens": 5912,
+            "inputTokenDetails": {
+              "noCacheTokens": 5912,
+              "cacheReadTokens": 0
+            },
+            "outputTokens": 1479,
+            "outputTokenDetails": {
+              "textTokens": 1479,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 7391,
+            "raw": {
+              "prompt_tokens": 5912,
+              "completion_tokens": 1479,
+              "total_tokens": 7391,
+              "prompt_tokens_details": {}
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 0
+          },
+          "toolCalls": [
+            {
+              "toolName": "write_file",
+              "toolCallId": "call_d0f5a950db0d46b49c0171a7"
+            }
+          ]
+        },
+        {
+          "finishReason": "stop",
+          "usage": {
+            "inputTokens": 6977,
+            "inputTokenDetails": {
+              "noCacheTokens": 6977,
+              "cacheReadTokens": 0
+            },
+            "outputTokens": 220,
+            "outputTokenDetails": {
+              "textTokens": 220,
+              "reasoningTokens": 0
+            },
+            "totalTokens": 7197,
+            "raw": {
+              "prompt_tokens": 6977,
+              "completion_tokens": 220,
+              "total_tokens": 7197,
+              "prompt_tokens_details": {}
+            },
+            "reasoningTokens": 0,
+            "cachedInputTokens": 0
+          },
+          "toolCalls": []
+        }
+      ],
+      "answer": "Fixed `src/retry.ts`. Summary of changes:\n\n- **Exponential backoff base**: changed `baseMs * 2 ** attempt` to `baseMs * 2 ** (attempt - 1)`, so attempt 1 returns `baseMs` and attempt 2 doubles it, matching the one-based contract.\n- **Operation order**: moved the jitter multiplication inside the `min` \u2014 `Math.min(maxMs, baseMs * 2 ** (attempt - 1) * jitter)` \u2014 so jitter is applied *before* the `maxMs` cap, then rounded last. Because `maxMs` is an integer, rounding after the cap can never exceed `maxMs`, satisfying the contract's ceiling guarantee (the old code could exceed it when jitter > 1).\n- **Preserved unchanged**: all argument validation (positive integer attempts, rejection of negative `baseMs`/`maxMs`/`jitter`) and the default `jitter = 1`. Zero jitter still returns `0` via the corrected formula.",
+      "tools": [
+        "read:src/retry.ts",
+        "read:docs/retry-contract.md",
+        "write:src/retry.ts"
+      ],
+      "toolIntegrityErrors": [],
+      "memory": [
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 30335,
+          "outputChars": 21228,
+          "removedChars": 9107,
+          "indexedItems": 24,
+          "recalledItems": 13,
+          "elapsedMs": 194.82749999999942,
+          "worker": {
+            "indexed_chunks": 90,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 90,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.815,
+            "no_match": false,
+            "scope": "59ac006774c0884fcd2e59adc3e80ec5ecda1e4201dea31d3a4c4991b3e063bb",
+            "archived_items": 24,
+            "new_items": 24,
+            "original_versions": 24,
+            "replacement_items": 17,
+            "input_chars": 30335,
+            "transform_ms": 48.95
+          }
+        },
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 30404,
+          "outputChars": 19247,
+          "removedChars": 11157,
+          "indexedItems": 25,
+          "recalledItems": 13,
+          "elapsedMs": 54.8145829999994,
+          "worker": {
+            "indexed_chunks": 91,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 91,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.309,
+            "no_match": false,
+            "scope": "59ac006774c0884fcd2e59adc3e80ec5ecda1e4201dea31d3a4c4991b3e063bb",
+            "archived_items": 25,
+            "new_items": 1,
+            "original_versions": 25,
+            "replacement_items": 19,
+            "input_chars": 30404,
+            "transform_ms": 52.184
+          }
+        },
+        {
+          "enabled": true,
+          "engine": "leCore",
+          "inputChars": 31497,
+          "outputChars": 18290,
+          "removedChars": 13207,
+          "indexedItems": 26,
+          "recalledItems": 13,
+          "elapsedMs": 58.122833000001265,
+          "worker": {
+            "indexed_chunks": 95,
+            "retrieved_chunks": 13,
+            "evidence_chars": 9000,
+            "candidate_chunks": 95,
+            "coverage_complete": false,
+            "candidate_certificate": {
+              "complete_down_to": null,
+              "tier_sizes": {},
+              "added": 0
+            },
+            "stale_items": 0,
+            "index_rebuilt": true,
+            "guard_cached": false,
+            "retrieval_ms": 0.283,
+            "no_match": false,
+            "scope": "59ac006774c0884fcd2e59adc3e80ec5ecda1e4201dea31d3a4c4991b3e063bb",
+            "archived_items": 26,
+            "new_items": 1,
+            "original_versions": 26,
+            "replacement_items": 21,
+            "input_chars": 31497,
+            "transform_ms": 53.607
+          }
+        }
+      ],
+      "totalMs": 27698.011209,
+      "finalSource": "export function delay(attempt: number, baseMs: number, maxMs: number, jitter = 1) {\n  if (attempt < 1 || !Number.isInteger(attempt)) throw new Error(\"attempt must be positive integer\")\n  if (baseMs < 0 || maxMs < 0 || jitter < 0) throw new Error(\"negative option\")\n  return Math.round(Math.min(maxMs, baseMs * 2 ** (attempt - 1) * jitter))\n}\n",
+      "estimatedCostUsd": 0.003723
+    }
+  ],
+  "cohortNote": "Matched followup to coding-zen.json: increased output cap from 1,200 to 4,096 and restricted each arm to three turns. Same fixture, model, prompt and temperature 0; fresh memory. Original results retained. All turns finished normally. This resolves the original truncation concern while preserving the failed result.",
+  "limitations": [
+    "One task per arm; this does not establish broader coding quality.",
+    "Both arms passed. Lower input tokens did not yield lower whole-task cost. The baseline benefited from 23,296 cached tokens while leCore had no cache reads and generated more output. Provider cache warmth differs across cohorts and runs.",
+    "This cohort loaded the adapter versions identified by its startup implementation hashes. The later ownership/provenance identity fix is separately unit-tested; these fixtures use unique sources and do not exercise that bug."
+  ]
+}
