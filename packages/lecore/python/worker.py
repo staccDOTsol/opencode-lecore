@@ -353,17 +353,32 @@ class Worker:
             raise
 
 
+def clean_text(value):
+    """Replace unpaired UTF-16 surrogates (from tool output that was not valid UTF-8)
+    with U+FFFD so every string can be hashed, stored and written as UTF-8."""
+    if isinstance(value, str):
+        return value.encode("utf-8", "surrogatepass").decode("utf-8", "replace")
+    if isinstance(value, list):
+        return [clean_text(item) for item in value]
+    if isinstance(value, dict):
+        return {clean_text(key): clean_text(item) for key, item in value.items()}
+    return value
+
+
 def main():
+    # Windows pipes default to the ANSI code page; the protocol is UTF-8 JSON lines.
+    sys.stdin.reconfigure(encoding="utf-8", errors="replace")
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     worker = Worker()
     for line in sys.stdin:
         request = {}
         try:
-            request = json.loads(line)
+            request = clean_text(json.loads(line))
             answer = {"id": request.get("id"), "ok": True, **worker.handle(request)}
         except Exception as error:
             answer = {"id": request.get("id") if isinstance(request, dict) else None,
                       "ok": False, "error": f"{type(error).__name__}: {error}"}
-        print(json.dumps(answer, ensure_ascii=False, separators=(",", ":")), flush=True)
+        print(json.dumps(clean_text(answer), ensure_ascii=False, separators=(",", ":")), flush=True)
 
 
 if __name__ == "__main__":
